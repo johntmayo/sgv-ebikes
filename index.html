@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoSGV E-Cargo Bike Voucher — Find Your Bike</title>
+  <meta name="description" content="Browse GoSGV-approved electric cargo bikes eligible for the $2,000 voucher program in the San Gabriel Valley." />
+
+  <!-- Fonts -->
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===================== DESIGN TOKENS ===================== */
+    :root, [data-theme="light"] {
+      --font-display: 'Cabinet Grotesk', 'Helvetica Neue', sans-serif;
+      --font-body: 'Satoshi', 'Inter', sans-serif;
+
+      --text-xs:   clamp(0.75rem,  0.7rem + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem,   1.2rem + 1.25vw, 2.25rem);
+      --text-2xl:  clamp(2rem,     1.2rem + 2.5vw, 3.5rem);
+      --text-3xl:  clamp(2.5rem,   1rem + 4vw, 5rem);
+
+      --space-1:  0.25rem; --space-2:  0.5rem;  --space-3:  0.75rem;
+      --space-4:  1rem;    --space-5:  1.25rem; --space-6:  1.5rem;
+      --space-8:  2rem;    --space-10: 2.5rem;  --space-12: 3rem;
+      --space-16: 4rem;    --space-20: 5rem;    --space-24: 6rem;
+
+      --color-bg:              #f5f4ef;
+      --color-surface:         #f9f8f4;
+      --color-surface-2:       #fdfcfa;
+      --color-surface-offset:  #eeece6;
+      --color-surface-dynamic: #e6e3db;
+      --color-divider:         #dddad3;
+      --color-border:          #d2cfc7;
+
+      --color-text:         #1e1d18;
+      --color-text-muted:   #6b6a64;
+      --color-text-faint:   #b0afa9;
+      --color-text-inverse: #f9f8f4;
+
+      /* SGV green accent */
+      --color-primary:           #2a7a4b;
+      --color-primary-hover:     #1f5e38;
+      --color-primary-active:    #164228;
+      --color-primary-highlight: #d0e8da;
+
+      /* Gold for "spend more" category */
+      --color-gold:          #b07800;
+      --color-gold-hover:    #8a5d00;
+      --color-gold-highlight:#f0e4c0;
+
+      --radius-sm: 0.375rem; --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;  --radius-xl: 1rem;  --radius-full: 9999px;
+
+      --shadow-sm: 0 1px 3px oklch(0.15 0.02 100 / 0.07);
+      --shadow-md: 0 4px 14px oklch(0.15 0.02 100 / 0.09);
+      --shadow-lg: 0 12px 36px oklch(0.15 0.02 100 / 0.13);
+
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      --content-default: 1000px;
+      --content-narrow: 640px;
+    }
+
+    [data-theme="dark"] {
+      --color-bg:              #131210;
+      --color-surface:         #181714;
+      --color-surface-2:       #1d1c19;
+      --color-surface-offset:  #1a1916;
+      --color-surface-dynamic: #252420;
+      --color-divider:         #242220;
+      --color-border:          #323028;
+      --color-text:            #d4d3cf;
+      --color-text-muted:      #7a7973;
+      --color-text-faint:      #55544f;
+      --color-text-inverse:    #1e1d18;
+      --color-primary:         #52b87d;
+      --color-primary-hover:   #3a9a65;
+      --color-primary-active:  #2a7a4b;
+      --color-primary-highlight: #1e3529;
+      --color-gold:            #e8a830;
+      --color-gold-hover:      #ca8e1c;
+      --color-gold-highlight:  #3a2d10;
+      --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.25);
+      --shadow-md: 0 4px 14px oklch(0 0 0 / 0.35);
+      --shadow-lg: 0 12px 36px oklch(0 0 0 / 0.45);
+    }
+
+    /* ===================== BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+    body {
+      min-height: 100dvh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.6;
+    }
+    img, picture, video { display: block; max-width: 100%; height: auto; }
+    h1,h2,h3,h4,h5,h6 { text-wrap: balance; line-height: 1.15; font-family: var(--font-display); }
+    p, li { text-wrap: pretty; }
+    a, button, [role="button"] {
+      transition: color var(--transition), background var(--transition),
+                  border-color var(--transition), box-shadow var(--transition), opacity var(--transition);
+    }
+    button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+    ::selection { background: oklch(from var(--color-primary) l c h / 0.2); color: var(--color-text); }
+    :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* ===================== LAYOUT ===================== */
+    .container {
+      max-width: var(--content-default);
+      margin-inline: auto;
+      padding-inline: var(--space-6);
+    }
+    .container--narrow { max-width: var(--content-narrow); }
+
+    /* ===================== NAV ===================== */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: oklch(from var(--color-bg) l c h / 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .nav__inner {
+      max-width: var(--content-default);
+      margin-inline: auto;
+      padding-inline: var(--space-6);
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--space-4);
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: var(--space-2);
+      text-decoration: none; color: var(--color-text);
+      font-family: var(--font-display); font-weight: 800;
+      font-size: var(--text-sm); letter-spacing: -0.01em;
+    }
+    .nav__brand-logo {
+      width: 32px; height: 32px; flex-shrink: 0;
+    }
+    .nav__actions { display: flex; align-items: center; gap: var(--space-3); }
+    .nav__link {
+      font-size: var(--text-sm); font-weight: 500;
+      color: var(--color-text-muted); text-decoration: none;
+      padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);
+    }
+    .nav__link:hover { color: var(--color-text); }
+    .btn-nav {
+      font-size: var(--text-sm); font-weight: 600;
+      background: var(--color-primary); color: var(--color-text-inverse);
+      padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
+      text-decoration: none; display: inline-flex; align-items: center; gap: var(--space-1);
+    }
+    .btn-nav:hover { background: var(--color-primary-hover); }
+    .theme-toggle {
+      width: 36px; height: 36px; border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-text-muted); background: transparent;
+    }
+    .theme-toggle:hover { color: var(--color-text); background: var(--color-surface-offset); }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      padding-block: clamp(var(--space-16), 10vw, var(--space-24));
+      background: linear-gradient(160deg, var(--color-surface) 0%, var(--color-bg) 60%);
+      border-bottom: 1px solid var(--color-divider);
+      position: relative; overflow: hidden;
+    }
+    .hero__inner {
+      max-width: var(--content-default);
+      margin-inline: auto; padding-inline: var(--space-6);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--space-12); align-items: center;
+    }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--color-primary); background: var(--color-primary-highlight);
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-full);
+      margin-bottom: var(--space-4);
+    }
+    .hero__title {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: var(--text-3xl); letter-spacing: -0.025em;
+      line-height: 1.05; margin-bottom: var(--space-5);
+      color: var(--color-text);
+    }
+    .hero__title em {
+      font-style: italic; font-family: 'Instrument Serif', Georgia, serif;
+      color: var(--color-primary);
+    }
+    .hero__sub {
+      font-size: var(--text-base); color: var(--color-text-muted);
+      line-height: 1.65; max-width: 46ch; margin-bottom: var(--space-8);
+    }
+    .hero__cta-group { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+    .btn-primary {
+      font-family: var(--font-display); font-size: var(--text-sm); font-weight: 700;
+      background: var(--color-primary); color: var(--color-text-inverse);
+      padding: var(--space-3) var(--space-6); border-radius: var(--radius-full);
+      text-decoration: none; display: inline-flex; align-items: center; gap: var(--space-2);
+    }
+    .btn-primary:hover { background: var(--color-primary-hover); }
+    .btn-ghost {
+      font-size: var(--text-sm); font-weight: 500;
+      color: var(--color-text-muted); text-decoration: none;
+      padding: var(--space-3) var(--space-4); border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+    }
+    .btn-ghost:hover { color: var(--color-text); border-color: var(--color-text-muted); }
+
+    .hero__stats { display: flex; flex-direction: column; gap: var(--space-4); }
+    .hero__stat-card {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); padding: var(--space-5) var(--space-6);
+      box-shadow: var(--shadow-sm);
+    }
+    .hero__stat-num {
+      font-family: var(--font-display); font-weight: 800; font-size: var(--text-xl);
+      color: var(--color-primary); line-height: 1;
+    }
+    .hero__stat-label { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-1); }
+
+    /* ===================== SECTION HEADERS ===================== */
+    .section-header {
+      margin-bottom: var(--space-10);
+    }
+    .section-eyebrow {
+      font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--color-text-faint); margin-bottom: var(--space-2);
+    }
+    .section-title {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: var(--text-2xl); letter-spacing: -0.02em; line-height: 1.1;
+    }
+    .section-desc {
+      font-size: var(--text-base); color: var(--color-text-muted);
+      max-width: 58ch; margin-top: var(--space-3); line-height: 1.65;
+    }
+
+    /* ===================== CATEGORY SECTIONS ===================== */
+    .category-section {
+      padding-block: clamp(var(--space-12), 7vw, var(--space-20));
+    }
+    .category-section--alt { background: var(--color-surface); }
+
+    .category-label {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-full);
+      margin-bottom: var(--space-3);
+    }
+    .category-label--free {
+      background: var(--color-primary-highlight); color: var(--color-primary);
+    }
+    .category-label--premium {
+      background: var(--color-gold-highlight); color: var(--color-gold);
+    }
+
+    /* ===================== BIKE GRID ===================== */
+    .bike-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+      gap: var(--space-5);
+      margin-top: var(--space-8);
+    }
+
+    .bike-card {
+      background: var(--color-surface-2);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.09);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column;
+      gap: var(--space-4);
+      transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+    }
+    .bike-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-color: oklch(from var(--color-text) l c h / 0.16);
+    }
+    .bike-card--free:hover { border-color: oklch(from var(--color-primary) l c h / 0.4); }
+    .bike-card--premium:hover { border-color: oklch(from var(--color-gold) l c h / 0.4); }
+
+    .bike-card__header { display: flex; flex-direction: column; gap: var(--space-1); }
+    .bike-card__brand {
+      font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--color-text-faint);
+    }
+    .bike-card__name {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: var(--text-lg); letter-spacing: -0.01em; line-height: 1.2;
+    }
+    .bike-card__tagline {
+      font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5;
+    }
+
+    .bike-card__price-row {
+      display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap;
+    }
+    .bike-card__price-orig {
+      font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg);
+      color: var(--color-text);
+    }
+    .bike-card__price-after {
+      font-size: var(--text-sm); font-weight: 600;
+      padding: 2px var(--space-2); border-radius: var(--radius-full);
+    }
+    .bike-card__price-after--free {
+      background: var(--color-primary-highlight); color: var(--color-primary);
+    }
+    .bike-card__price-after--premium {
+      background: var(--color-gold-highlight); color: var(--color-gold);
+    }
+
+    .bike-card__specs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--space-2); list-style: none;
+    }
+    .bike-card__spec {
+      background: var(--color-surface-offset);
+      border-radius: var(--radius-md); padding: var(--space-2) var(--space-3);
+    }
+    .bike-card__spec-label {
+      font-size: var(--text-xs); color: var(--color-text-faint);
+      font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .bike-card__spec-val {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: var(--text-sm); color: var(--color-text); margin-top: 2px;
+    }
+
+    .bike-card__retailers {
+      display: flex; flex-wrap: wrap; gap: var(--space-1); margin-top: var(--space-1);
+    }
+    .bike-card__retailer-label {
+      font-size: var(--text-xs); color: var(--color-text-faint);
+      font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em;
+      width: 100%; margin-bottom: var(--space-1);
+    }
+    .retailer-chip {
+      font-size: var(--text-xs); font-weight: 500;
+      background: var(--color-surface-offset); color: var(--color-text-muted);
+      padding: 3px var(--space-2); border-radius: var(--radius-full);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+    }
+
+    .bike-card__badge-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .badge {
+      font-size: var(--text-xs); font-weight: 600;
+      padding: 3px var(--space-2); border-radius: var(--radius-full);
+    }
+    .badge--green { background: var(--color-primary-highlight); color: var(--color-primary); }
+    .badge--gold  { background: var(--color-gold-highlight);    color: var(--color-gold); }
+    .badge--neutral { background: var(--color-surface-offset);  color: var(--color-text-muted); }
+
+    .bike-card__footer { margin-top: auto; padding-top: var(--space-2); }
+    .bike-card__link {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      font-size: var(--text-sm); font-weight: 600;
+      text-decoration: none;
+    }
+    .bike-card__link--free  { color: var(--color-primary); }
+    .bike-card__link--premium { color: var(--color-gold); }
+    .bike-card__link:hover { opacity: 0.75; }
+
+    /* ===================== ELIGIBILITY BANNER ===================== */
+    .eligibility {
+      padding-block: clamp(var(--space-10), 6vw, var(--space-16));
+      background: var(--color-primary); color: var(--color-text-inverse);
+    }
+    .eligibility__inner {
+      max-width: var(--content-default); margin-inline: auto; padding-inline: var(--space-6);
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); align-items: center;
+    }
+    .eligibility__title {
+      font-family: var(--font-display); font-weight: 800; font-size: var(--text-2xl);
+      letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--space-4);
+    }
+    .eligibility__body { font-size: var(--text-base); line-height: 1.65; opacity: 0.9; }
+    .eligibility__list { list-style: none; display: flex; flex-direction: column; gap: var(--space-3); }
+    .eligibility__item {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+      font-size: var(--text-sm); line-height: 1.5;
+    }
+    .eligibility__check {
+      flex-shrink: 0; width: 20px; height: 20px; border-radius: var(--radius-full);
+      background: oklch(from var(--color-text-inverse) l c h / 0.2);
+      display: flex; align-items: center; justify-content: center; margin-top: 2px;
+    }
+    .eligibility__btn {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-family: var(--font-display); font-size: var(--text-sm); font-weight: 700;
+      background: var(--color-text-inverse); color: var(--color-primary);
+      padding: var(--space-3) var(--space-6); border-radius: var(--radius-full);
+      text-decoration: none; margin-top: var(--space-6);
+    }
+    .eligibility__btn:hover { opacity: 0.9; }
+
+    /* ===================== PROCESS SECTION ===================== */
+    .process {
+      padding-block: clamp(var(--space-12), 7vw, var(--space-20));
+    }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-6); margin-top: var(--space-10);
+    }
+    .step {
+      padding: var(--space-6);
+      background: var(--color-surface);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+      border-radius: var(--radius-xl);
+    }
+    .step__num {
+      font-family: var(--font-display); font-weight: 800; font-size: var(--text-xl);
+      color: var(--color-primary); opacity: 0.3; line-height: 1; margin-bottom: var(--space-3);
+    }
+    .step__title {
+      font-family: var(--font-display); font-weight: 700; font-size: var(--text-base);
+      margin-bottom: var(--space-2);
+    }
+    .step__body { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
+
+    /* ===================== RETAILERS ===================== */
+    .retailers {
+      padding-block: clamp(var(--space-12), 7vw, var(--space-20));
+      background: var(--color-surface);
+    }
+    .retailer-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-4); margin-top: var(--space-8);
+    }
+    .retailer-card {
+      background: var(--color-surface-2);
+      border: 1px solid oklch(from var(--color-text) l c h / 0.08);
+      border-radius: var(--radius-lg); padding: var(--space-5);
+      box-shadow: var(--shadow-sm);
+    }
+    .retailer-card__name {
+      font-family: var(--font-display); font-weight: 700; font-size: var(--text-base);
+      margin-bottom: var(--space-1);
+    }
+    .retailer-card__addr { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; }
+    .retailer-card__link {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      font-size: var(--text-xs); font-weight: 600; color: var(--color-primary);
+      text-decoration: none; margin-top: var(--space-3);
+    }
+    .retailer-card__link:hover { opacity: 0.75; }
+
+    /* ===================== FOOTER ===================== */
+    .footer {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-divider);
+    }
+    .footer__inner {
+      max-width: var(--content-default); margin-inline: auto; padding-inline: var(--space-6);
+      display: flex; flex-wrap: wrap; gap: var(--space-6);
+      justify-content: space-between; align-items: flex-start;
+    }
+    .footer__brand {
+      font-family: var(--font-display); font-weight: 800; font-size: var(--text-sm);
+      color: var(--color-text);
+    }
+    .footer__note { font-size: var(--text-xs); color: var(--color-text-faint); max-width: 42ch; line-height: 1.6; margin-top: var(--space-2); }
+    .footer__link {
+      font-size: var(--text-xs); color: var(--color-primary); text-decoration: none;
+    }
+    .footer__link:hover { opacity: 0.75; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 768px) {
+      .hero__inner { grid-template-columns: 1fr; }
+      .hero__stats { flex-direction: row; flex-wrap: wrap; }
+      .hero__stat-card { flex: 1; min-width: 140px; }
+      .eligibility__inner { grid-template-columns: 1fr; }
+      .nav__link { display: none; }
+    }
+    @media (max-width: 480px) {
+      .hero__title { font-size: clamp(2rem, 8vw, 3rem); }
+      .hero__stats { display: grid; grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand" aria-label="GoSGV Cargo Bike Voucher Guide">
+        <svg class="nav__brand-logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="15" fill="var(--color-primary)" opacity="0.12"/>
+          <path d="M8 20 C8 20 10 13 16 13 C22 13 24 20 24 20" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="10" cy="21" r="2.5" fill="none" stroke="var(--color-primary)" stroke-width="2"/>
+          <circle cx="22" cy="21" r="2.5" fill="none" stroke="var(--color-primary)" stroke-width="2"/>
+          <path d="M16 13 L14 8 L20 9" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        GoSGV Bike Guide
+      </a>
+      <div class="nav__actions">
+        <a href="#bikes" class="nav__link">Bikes</a>
+        <a href="#retailers" class="nav__link">Retailers</a>
+        <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZC096KvTVEUcsWQ9ilEhFdk1g4mHsW-2r8nrjEaCShbUjMw/viewform" target="_blank" rel="noopener noreferrer" class="btn-nav">
+          Apply Now →
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero__inner">
+      <div>
+        <div class="hero__eyebrow">GoSGV Voucher Program · San Gabriel Valley</div>
+        <h1 class="hero__title">$2,000 off an <em>e-cargo bike.</em></h1>
+        <p class="hero__sub">
+          The SGVCOG's GoSGV Voucher Program puts $2,000 toward a new electric cargo bike for eligible SGV residents — including Altadena. Here are the best options that qualify.
+        </p>
+        <div class="hero__cta-group">
+          <a href="#bikes" class="btn-primary">Browse Bikes ↓</a>
+          <a href="https://www.sgvcog.org/gosgv" target="_blank" rel="noopener noreferrer" class="btn-ghost">Program Info ↗</a>
+        </div>
+      </div>
+      <div class="hero__stats">
+        <div class="hero__stat-card">
+          <div class="hero__stat-num">$2,000</div>
+          <div class="hero__stat-label">Voucher value — applied at point of sale</div>
+        </div>
+        <div class="hero__stat-card">
+          <div class="hero__stat-num">May 17</div>
+          <div class="hero__stat-label">Next pre-application review date</div>
+        </div>
+        <div class="hero__stat-card">
+          <div class="hero__stat-num">7</div>
+          <div class="hero__stat-label">Approved local retailers in the SGV</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- BIKES SECTION -->
+  <main id="bikes">
+
+    <!-- CATEGORY 1: BASICALLY FREE -->
+    <section class="category-section" aria-labelledby="free-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="category-label category-label--free">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            Basically Free · After voucher
+          </div>
+          <h2 class="section-title" id="free-heading">Voucher covers most or all of it</h2>
+          <p class="section-desc">These bikes price at or below $2,000, meaning your out-of-pocket cost could be $0–$500. All are highly reviewed and GoSGV-eligible.</p>
+        </div>
+
+        <div class="bike-grid">
+
+          <!-- Lectric XPedition2 -->
+          <article class="bike-card bike-card--free" aria-label="Lectric XPedition2">
+            <div class="bike-card__header">
+              <div class="bike-card__brand">Lectric</div>
+              <div class="bike-card__name">XPedition 2</div>
+              <p class="bike-card__tagline">Top pick by Electric Bike Report — dual battery option, loaded specs at the lowest price.</p>
+            </div>
+            <div class="bike-card__badge-row">
+              <span class="badge badge--green">⭐ Editor's Pick</span>
+              <span class="badge badge--neutral">Class 2</span>
+            </div>
+            <div class="bike-card__price-row">
+              <span class="bike-card__price-orig">$1,299–$1,699</span>
+              <span class="bike-card__price-after bike-card__price-after--free">$0 after voucher</span>
+            </div>
+            <ul class="bike-card__specs">
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Range</div>
+                <div class="bike-card__spec-val">50–80 mi</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Top Speed</div>
+                <div class="bike-card__spec-val">20 mph</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Capacity</div>
+                <div class="bike-card__spec-val">450 lb</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Motor</div>
+                <div class="bike-card__spec-val">750W</div>
+              </li>
+            </ul>
+            <div class="bike-card__retailers">
+              <div class="bike-card__retailer-label">Approved retailer</div>
+              <span class="retailer-chip">Redondo E-Bikes, Pasadena</span>
+            </div>
+            <div class="bike-card__footer">
+              <a href="https://lectricebikes.com/collections/xpedition-series" target="_blank" rel="noopener noreferrer" class="bike-card__link bike-card__link--free">View bike ↗</a>
+            </div>
+          </article>
+
+          <!-- Aventon Abound LR -->
+          <article class="bike-card bike-card--free" aria-label="Aventon Abound LR">
+            <div class="bike-card__header">
+              <div class="bike-card__brand">Aventon</div>
+              <div class="bike-card__name">Abound LR</div>
+              <p class="bike-card__tagline">Best Overall by Car & Driver and OutdoorGearLab — fastest acceleration in its class, great value.</p>
+            </div>
+            <div class="bike-card__badge-row">
+              <span class="badge badge--green">⭐ Best Overall</span>
+              <span class="badge badge--neutral">Class 2 / 3</span>
+            </div>
+            <div class="bike-card__price-row">
+              <span class="bike-card__price-orig">$1,999–$2,799</span>
+              <span class="bike-card__price-after bike-card__price-after--free">~$0–$799 after voucher</span>
+            </div>
+            <ul class="bike-card__specs">
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Range</div>
+                <div class="bike-card__spec-val">60 mi</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Top Speed</div>
+                <div class="bike-card__spec-val">20–28 mph</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Capacity</div>
+                <div class="bike-card__spec-val">440 lb</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">0→15 mph</div>
+                <div class="bike-card__spec-val">~5 sec</div>
+              </li>
+            </ul>
+            <div class="bike-card__retailers">
+              <div class="bike-card__retailer-label">Approved retailers</div>
+              <span class="retailer-chip">E-Bike Cyclery</span>
+              <span class="retailer-chip">Montebello</span>
+              <span class="retailer-chip">Redondo E-Bikes</span>
+            </div>
+            <div class="bike-card__footer">
+              <a href="https://www.aventon.com/products/abound-lr-ebike?variant=44189242818755" target="_blank" rel="noopener noreferrer" class="bike-card__link bike-card__link--free">View bike ↗</a>
+            </div>
+          </article>
+
+          <!-- Flyer Via Pro -->
+          <article class="bike-card bike-card--free" aria-label="Flyer Via Pro">
+            <div class="bike-card__header">
+              <div class="bike-card__brand">Flyer</div>
+              <div class="bike-card__name">Via Pro</div>
+              <p class="bike-card__tagline">Named among top long-tail cargo bikes in 2026 roundups. Solid everyday hauler with strong build quality.</p>
+            </div>
+            <div class="bike-card__badge-row">
+              <span class="badge badge--green">Top Long-Tail Pick</span>
+              <span class="badge badge--neutral">Class 2</span>
+            </div>
+            <div class="bike-card__price-row">
+              <span class="bike-card__price-orig">~$1,799–$2,199</span>
+              <span class="bike-card__price-after bike-card__price-after--free">~$0–$199 after voucher</span>
+            </div>
+            <ul class="bike-card__specs">
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Range</div>
+                <div class="bike-card__spec-val">~50 mi</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Top Speed</div>
+                <div class="bike-card__spec-val">20 mph</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Capacity</div>
+                <div class="bike-card__spec-val">350 lb</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Motor</div>
+                <div class="bike-card__spec-val">750W</div>
+              </li>
+            </ul>
+            <div class="bike-card__retailers">
+              <div class="bike-card__retailer-label">Approved retailers</div>
+              <span class="retailer-chip">E-Bike Cyclery</span>
+              <span class="retailer-chip">The Local Bikestand</span>
+            </div>
+            <div class="bike-card__footer">
+              <a href="https://www.radioflyer.com/products/flyer-via-pro?gad_source=1&gad_campaignid=13477530910&gbraid=0AAAAADsaYIZTNu6VjruAezQWUfoePwU75&gclid=CjwKCAjwntHPBhAaEiwA_Xp6RnfOvqqODOPmzzRytb2pVh6gCeh5ouZntNKSOFH22__oqOclcE69shoCjUsQAvD_BwE" target="_blank" rel="noopener noreferrer" class="bike-card__link bike-card__link--free">View bike ↗</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORY 2: SPEND MORE -->
+    <section class="category-section category-section--alt" aria-labelledby="premium-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="category-label category-label--premium">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Worth the Upgrade · After voucher
+          </div>
+          <h2 class="section-title" id="premium-heading">Pay more, ride better</h2>
+          <p class="section-desc">These bikes run $2,200–$4,000+. After the voucher, you're spending $200–$2,000 out of pocket — but you're getting Bosch motors, tighter build quality, and bikes reviewers call best-in-class.</p>
+        </div>
+
+        <div class="bike-grid">
+
+          <!-- Tern Quick Haul Long -->
+          <article class="bike-card bike-card--premium" aria-label="Tern Quick Haul Long">
+            <div class="bike-card__header">
+              <div class="bike-card__brand">Tern</div>
+              <div class="bike-card__name">Quick Haul Long</div>
+              <p class="bike-card__tagline">Compact and foldable, Bosch-powered, best cargo bike under $2,500 per r/CargoBike. Closest approved retailer to Altadena.</p>
+            </div>
+            <div class="bike-card__badge-row">
+              <span class="badge badge--gold">Bosch Motor</span>
+              <span class="badge badge--neutral">Class 3</span>
+              <span class="badge badge--neutral">Compact</span>
+            </div>
+            <div class="bike-card__price-row">
+              <span class="bike-card__price-orig">$2,199–$2,499</span>
+              <span class="bike-card__price-after bike-card__price-after--premium">~$199–$499 after voucher</span>
+            </div>
+            <ul class="bike-card__specs">
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Range</div>
+                <div class="bike-card__spec-val">~60 mi</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Top Speed</div>
+                <div class="bike-card__spec-val">28 mph</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Capacity</div>
+                <div class="bike-card__spec-val">400 lb</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Motor</div>
+                <div class="bike-card__spec-val">Bosch</div>
+              </li>
+            </ul>
+            <div class="bike-card__retailers">
+              <div class="bike-card__retailer-label">Approved retailer</div>
+              <span class="retailer-chip">Velo Pasadena (closest)</span>
+            </div>
+            <div class="bike-card__footer">
+              <a href="https://www.ternbicycles.com/us/bikes?platform%5B348242%5D=348242&platform%5B348762%5D=348762" target="_blank" rel="noopener noreferrer" class="bike-card__link bike-card__link--premium">View bike ↗</a>
+            </div>
+          </article>
+
+          <!-- Specialized Globe Haul LT -->
+          <article class="bike-card bike-card--premium" aria-label="Specialized Globe Haul LT">
+            <div class="bike-card__header">
+              <div class="bike-card__brand">Specialized</div>
+              <div class="bike-card__name">Globe Haul LT</div>
+              <p class="bike-card__tagline">Best premium longtail per Bicycling Magazine and Upway. One of the fastest-accelerating cargo bikes tested by Car & Driver.</p>
+            </div>
+            <div class="bike-card__badge-row">
+              <span class="badge badge--gold">⭐ Premium Longtail</span>
+              <span class="badge badge--neutral">Class 3</span>
+            </div>
+            <div class="bike-card__price-row">
+              <span class="bike-card__price-orig">$2,500–$3,200</span>
+              <span class="bike-card__price-after bike-card__price-after--premium">~$500–$1,200 after voucher</span>
+            </div>
+            <ul class="bike-card__specs">
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Range</div>
+                <div class="bike-card__spec-val">60 mi</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Top Speed</div>
+                <div class="bike-card__spec-val">27 mph</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">Capacity</div>
+                <div class="bike-card__spec-val">441 lb</div>
+              </li>
+              <li class="bike-card__spec">
+                <div class="bike-card__spec-label">0→15 mph</div>
+                <div class="bike-card__spec-val">4.1 sec</div>
+              </li>
+            </ul>
+            <div class="bike-card__retailers">
+              <div class="bike-card__retailer-label">Approved retailer</div>
+              <span class="retailer-chip">Montebello Bicycles</span>
+            </div>
+            <div class="bike-card__footer">
+              <a href="https://www.specialized.com/us/en/shop/bikes/electric-bikes/electric-hybrid-bikes/cargo-bikes" target="_blank" rel="noopener noreferrer" class="bike-card__link bike-card__link--premium">View bike ↗</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ELIGIBILITY -->
+  <section class="eligibility" aria-labelledby="eligibility-heading">
+    <div class="eligibility__inner">
+      <div>
+        <h2 class="eligibility__title" id="eligibility-heading">You probably qualify.</h2>
+        <p class="eligibility__body">Altadena residents are explicitly listed as eligible communities for the GoSGV Voucher Program. The next pre-application review is May 17, 2026 — apply now.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZC096KvTVEUcsWQ9ilEhFdk1g4mHsW-2r8nrjEaCShbUjMw/viewform" target="_blank" rel="noopener noreferrer" class="eligibility__btn">Apply for Voucher →</a>
+      </div>
+      <ul class="eligibility__list" aria-label="Eligibility criteria">
+        <li class="eligibility__item">
+          <span class="eligibility__check" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+          </span>
+          <span>Reside in <strong>Altadena</strong> or another listed SGV community</span>
+        </li>
+        <li class="eligibility__item">
+          <span class="eligibility__check" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+          </span>
+          <span>Must be <strong>18+</strong> and not have previously received a GoSGV voucher</span>
+        </li>
+        <li class="eligibility__item">
+          <span class="eligibility__check" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+          </span>
+          <span>Complete a <strong>safety training course</strong> with ActiveSGV after selection</span>
+        </li>
+        <li class="eligibility__item">
+          <span class="eligibility__check" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+          </span>
+          <span>Participate in a <strong>UC Tennessee research study</strong> (surveys + OpenPATH app)</span>
+        </li>
+        <li class="eligibility__item">
+          <span class="eligibility__check" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+          </span>
+          <span>Redeem voucher at an <strong>approved retailer</strong> within 28 days of award</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" aria-labelledby="process-heading">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">How it works</div>
+        <h2 class="section-title" id="process-heading">From application to riding</h2>
+      </div>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step__num">01</div>
+          <div class="step__title">Submit Pre-Application</div>
+          <p class="step__body">Answer basic eligibility questions online. No documents needed yet. Next review: <strong>May 17, 2026</strong> at noon.</p>
+        </div>
+        <div class="step">
+          <div class="step__num">02</div>
+          <div class="step__title">Get Selected</div>
+          <p class="step__body">SGVCOG reviews applications and selects voucher recipients. If demand exceeds supply, selections are random.</p>
+        </div>
+        <div class="step">
+          <div class="step__num">03</div>
+          <div class="step__title">Complete Post-App</div>
+          <p class="step__body">Upload documents, attend the ActiveSGV safety course, and complete the intake survey within 28 days.</p>
+        </div>
+        <div class="step">
+          <div class="step__num">04</div>
+          <div class="step__title">Ride Your Bike</div>
+          <p class="step__body">Redeem your $2,000 voucher at an approved retailer within 28 days. The discount applies at point of sale — no reimbursement needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RETAILERS -->
+  <section class="retailers" id="retailers" aria-labelledby="retailers-heading">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Approved Retailers</div>
+        <h2 class="section-title" id="retailers-heading">Where to redeem your voucher</h2>
+        <p class="section-desc">Vouchers can only be used at these seven brick-and-mortar shops. Online purchases are not eligible.</p>
+      </div>
+      <div class="retailer-grid">
+        <div class="retailer-card">
+          <div class="retailer-card__name">Around the Cycle</div>
+          <div class="retailer-card__addr">1270 Lincoln Ave #1500<br>Pasadena, CA 91103</div>
+          <a href="https://maps.google.com/?q=Around+the+Cycle+Pasadena" target="_blank" rel="noopener noreferrer" class="retailer-card__link">Get Directions ↗</a>
+        </div>
+        <div class="retailer-card">
+          <div class="retailer-card__name">E-Bike Cyclery Monrovia</div>
+          <div class="retailer-card__addr">601 W Huntington Dr<br>Monrovia, CA 91016</div>
+          <a href="https://maps.google.com/?q=E-Bike+Cyclery+601+W+Huntington+Monrovia" target="_blank" rel="noopener noreferrer" class="retailer-card__link">Get Directions ↗</a>
+        </div>
+        <div class="retailer-card">
+          <div class="retailer-card__name">E-Bike Cyclery San Dimas</div>
+          <div class="retailer-card__addr">490 W Arrow Hwy<br>San Dimas, CA 91773</div>
+          <a href="https://maps.google.com/?q=490+W+Arrow+Hwy+San+Dimas" target="_blank" rel="noopener noreferrer" class="retailer-card__link">Get Directions ↗</a>
+        </div>
+        <div class="retailer-card">
+          <div class="retailer-card__name">The Local Bikestand</div>
+          <div class="retailer-card__addr">748 E Bonita Ave Unit 101<br>Pomona, CA 91767</div>
+          <a href="https://maps.google.com/?q=748+E+Bonita+Ave+Pomona" target="_blank" rel="noopener noreferrer" class="retailer-card__link">Get Directions ↗</a>
+        </div>
+        <div class="retailer-card">
+          <div class="retailer-card__name">Montebello Bicycles</div>
+          <div class="retailer-card__addr">3015 W Beverly Blvd Unit A<br>Montebello, CA 90640</div>
+          <a href="https://maps.google.com/?q=3015+W+Beverly+Blvd+Montebello" target="_blank" rel="noopener noreferrer" class="retailer-card__link">Get Directions ↗</a>
+        </div>
+        <div class="retailer-card">
+          <div class="retailer-card__name">Redondo E-Bikes</div>
+          <div class="retailer-card__addr">270 S Raymond Ave<br>Pasadena, CA 91105</div>
+          <a href="https://maps.google.com/?q=270+S+Raymond+Ave+Pasadena" target="_blank" rel="noopener noreferrer" class="retailer-card__link">Get Directions ↗</a>
+        </div>
+        <div class="retailer-card">
+          <div class="retailer-card__name">Velo Pasadena ★</div>
+          <div class="retailer-card__addr">2562 E Colorado Blvd<br>Pasadena, CA 91107<br><small style="color:var(--color-primary);font-weight:600;">Closest to Altadena</small></div>
+          <a href="https://maps.google.com/?q=2562+E+Colorado+Blvd+Pasadena" target="_blank" rel="noopener noreferrer" class="retailer-card__link">Get Directions ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ABOUT THIS SITE -->
+  <section style="padding-block: clamp(var(--space-10), 5vw, var(--space-16)); border-top: 1px solid var(--color-divider);" aria-labelledby="about-heading">
+    <div class="container container--narrow">
+      <h2 style="font-family:var(--font-display);font-weight:800;font-size:var(--text-lg);letter-spacing:-0.01em;margin-bottom:var(--space-4);" id="about-heading">How this site was made</h2>
+      <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.75;margin-bottom:var(--space-4);">
+        This guide was built by a local Altadena resident using <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary);font-weight:600;">Perplexity AI</a>. The program information comes directly from the <a href="https://www.sgvcog.org/gosgv-voucher" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary);font-weight:600;">SGVCOG GoSGV Voucher Program page</a> and the <a href="https://docs.google.com/document/d/1kskaoUvh89v75So7Vn7tnoagxUmDYtF7Wavcui_dEsE/edit?usp=sharing" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary);font-weight:600;">official eligible bike list</a>.
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.75;margin-bottom:var(--space-4);">
+        The featured bike recommendations are not official SGVCOG endorsements. They were selected by cross-referencing the full approved bike list against independent reviews and testing from <em>Car &amp; Driver</em>, OutdoorGearLab, Electric Bike Report, <em>Bicycling Magazine</em>, Upway, GearJunkie, and Velo/Outside, as well as community sentiment from r/CargoBike. Bikes were prioritized based on review consensus, real-world utility, and value after the $2,000 voucher is applied.
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.75;">
+        The HTML, design, and copy were generated through a conversation with Perplexity AI and refined with manual edits. Program details — deadlines, eligibility rules, retailer addresses — were verified against official SGVCOG sources at the time of writing (May 2026), but may change. Always confirm with <a href="https://www.sgvcog.org/gosgv-voucher" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary);font-weight:600;">SGVCOG directly</a> before applying.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div>
+        <div class="footer__brand">GoSGV Bike Guide</div>
+        <p class="footer__note">Unofficial guide to GoSGV-eligible cargo bikes. Program administered by the San Gabriel Valley Council of Governments (SGVCOG). Apply by May 17, 2026.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:var(--space-2)">
+        <a href="https://www.sgvcog.org/gosgv" target="_blank" rel="noopener noreferrer" class="footer__link">SGVCOG Program Page ↗</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZC096KvTVEUcsWQ9ilEhFdk1g4mHsW-2r8nrjEaCShbUjMw/viewform" target="_blank" rel="noopener noreferrer" class="footer__link">Apply for Voucher ↗</a>
+        <a href="https://www.gosgv.com" target="_blank" rel="noopener noreferrer" class="footer__link">GoSGV Bikeshare ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    (function(){
+      const t = document.querySelector('[data-theme-toggle]');
+      const r = document.documentElement;
+      let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+      r.setAttribute('data-theme', d);
+      const sunIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+      const moonIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      if (t) {
+        t.innerHTML = d === 'dark' ? sunIcon : moonIcon;
+        t.addEventListener('click', () => {
+          d = d === 'dark' ? 'light' : 'dark';
+          r.setAttribute('data-theme', d);
+          t.innerHTML = d === 'dark' ? sunIcon : moonIcon;
+          t.setAttribute('aria-label', 'Switch to ' + (d === 'dark' ? 'light' : 'dark') + ' mode');
+        });
+      }
+    })();
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.bike-card, .step, .retailer-card').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = `opacity 0.4s ease ${i * 0.06}s, transform 0.4s ease ${i * 0.06}s, box-shadow 180ms cubic-bezier(0.16,1,0.3,1), border-color 180ms cubic-bezier(0.16,1,0.3,1)`;
+      observer.observe(el);
+    });
+
+    // Respect reduced motion
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.bike-card, .step, .retailer-card').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.style.transition = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
